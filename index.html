@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            #container {
+                width: calc(100vw - 16px);
+                height:  calc(100vh - 16px);
+                background-color:  #212121;
+                padding: 12px;
+            }
+            
+            .textdiv {
+                margin: 4px;
+            }
+            text {
+                color: aliceblue;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            const ws = new WebSocket("ws://localhost:3000");
+
+            ws.onopen = (event) => {
+                ws.send("Client Message : Hi!");
+            }
+
+            ws.onmessage = (event) => {
+               // console.log("Server message:", event.data);
+               const html = "<div class='textdiv'><text>"+event.data+"</text></div>";
+               const innerhtml = document.getElementById('container').innerHTML;
+
+               document.getElementById('container').innerHTML = innerhtml + html;
+            }
+
+            ws.onerror = (event) => {
+                console.log("Server error message: ", event.data);
+            }
+        </script>
+        <script src="" async defer></script>
+        <div id="container">
+            <div class="textdiv"><text>여기서 부터 로그가 시작됩니다.</text></div>
+        </div>
+        
+    </body>
+</html>
